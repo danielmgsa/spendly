@@ -1,54 +1,72 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors'); // Add CORS middleware
-const { google } = require('googleapis');
-const app = express();
+const cors = require('cors');
+const mongoose = require('mongoose');
 
-const PORT = 3000;
+// Initialize Express App
+const app = express();
+const PORT = 3001;
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-// Load your Google service account key
-const key = require('./spendly-444216-ae6843652420.json'); // Relative path to your JSON file
+// MongoDB Connection
+const MONGO_URI = 'mongodb+srv://danielmgsa:rJSRK7RKxTaHkCJW@spendly.gkkpn.mongodb.net/?retryWrites=true&w=majority&appName=Spendly';
 
-// Authenticate Google Sheets API
-const auth = new google.auth.GoogleAuth({
-    credentials: key,
-    scopes: ['https://www.googleapis.com/auth/spreadsheets']
+mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.error('Error connecting to MongoDB:', err));
+
+// MongoDB Schema and Model
+const transactionSchema = new mongoose.Schema({
+    date: { type: Date, required: true },
+    category: { type: String, required: true },
+    amount: { type: Number, required: true },
+    notes: { type: String, required: false },
 });
 
-const sheets = google.sheets({ version: 'v4', auth });
+const Transaction = mongoose.model('Transaction', transactionSchema);
 
-// Replace this with your actual Google Sheet ID
-const SPREADSHEET_ID = '18D3ABEW4aT2gbTaVocXeADtLOAYZ8ew84NHPNtXVIco';
+// API Routes
 
-// API route to save data
-app.post('/add-expense', async (req, res) => {
-    const { date, category, amount } = req.body;
-
+// Fetch all transactions
+app.get('/api/transactions', async (req, res) => {
     try {
-        if (!date || !category || !amount) {
-            return res.status(400).send({ success: false, error: 'Invalid data provided.' });
-        }
-
-        await sheets.spreadsheets.values.append({
-            spreadsheetId: SPREADSHEET_ID,
-            range: 'Expenses!A1:C1', // Match the range to your sheet
-            valueInputOption: 'RAW',
-            requestBody: {
-                values: [[date, category, amount]]
-            }
-        });
-        res.send({ success: true, message: 'Expense added successfully!' });
+        const transactions = await Transaction.find();
+        res.json(transactions);
     } catch (err) {
-        console.error('Error appending to Google Sheets:', err);
-        res.status(500).send({ success: false, error: err.message });
+        res.status(500).json({ error: err.message });
     }
 });
 
-// Start the server
+// Add a new transaction
+app.post('/api/transactions', async (req, res) => {
+    try {
+        const { date, category, amount, notes } = req.body;
+        const transaction = new Transaction({ date, category, amount, notes });
+        await transaction.save();
+        res.status(201).json(transaction);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+// Delete a transaction by ID
+app.delete('/api/transactions/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const transaction = await Transaction.findByIdAndDelete(id);
+        if (!transaction) {
+            return res.status(404).json({ error: 'Transaction not found' });
+        }
+        res.json({ message: 'Transaction deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Start the Server
 app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });
