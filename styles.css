@@ -1,0 +1,179 @@
+select, input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+canvas {
+    margin-top: 20px;
+    max-width: 100%;
+}
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto; /* Center the table */
+}
+
+table, th, td {
+    border: 1px solid #ddd; /* Add borders */
+}
+
+th, td {
+    text-align: left;
+    padding: 10px;
+}
+
+th {
+    background-color: #f4f4f9;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Align the container contents */
+.container {
+    text-align: center;
+}
+/* General Body Styling for Dark Mode */
+body {
+    background-color: #121212; /* Dark background */
+    color: #ffffff; /* Light text for readability */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Center Container */
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #1e1e1e; /* Slightly lighter dark background */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Headings */
+h1 {
+    text-align: center;
+    color: #ffffff;
+}
+
+/* Form Styling */
+form label {
+    display: block;
+    margin-top: 10px;
+    color: #dddddd;
+}
+
+form input, form select, form button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #444444;
+    border-radius: 5px;
+    background-color: #2c2c2c;
+    color: #ffffff;
+}
+
+form button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Total Spent Styling */
+.total-spent {
+    text-align: center;
+    font-size: 1.5em;
+    margin-top: 20px;
+    color: #ffffff;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    background-color: #2c2c2c; /* Dark background for the table */
+    color: #ffffff;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+table, th, td {
+    border: 1px solid #444444; /* Subtle border for contrast */
+}
+
+th, td {
+    text-align: left;
+    padding: 10px;
+}
+
+th {
+    background-color: #444444; /* Header background */
+    text-align: center;
+    color: #ffffff;
+}
+
+tr:nth-child(even) {
+    background-color: #3c3c3c; /* Slightly lighter dark for even rows */
+}
+
+tr:hover {
+    background-color: #555555; /* Highlight row on hover */
+}
+
+/* Chart Styling */
+canvas {
+    display: block;
+    margin: 20px auto;
+    max-width: 100%;
+    background-color: #1e1e1e; /* Dark background for chart canvas */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    form input, form select, form button {
+        font-size: 14px;
+    }
+
+    .total-spent {
+        font-size: 1.2em;
+    }
+}
